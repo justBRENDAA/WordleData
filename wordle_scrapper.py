@@ -1,5 +1,6 @@
 from bs4 import BeautifulSoup
 import requests
+import pandas as pd
 
 # get html from the website
 html_text = requests.get('https://wordfinder.yourdictionary.com/wordle/answers/').text
@@ -27,7 +28,7 @@ for table in tables:
         cols = row.find_all('td')
 
         if len(cols) == 3:
-            date = cols[0].get_text(strip=True).replace('Today','')
+            date = cols[0].get_text(strip=True).replace('Today','').replace('.','')
             date = date + " " + years[yearCounter]
             number = cols[1].get_text(strip=True)
             answer = cols[2].get_text(strip=True).replace('Reveal','')
@@ -35,5 +36,17 @@ for table in tables:
 
     yearCounter += 1
 
-for item in all_data: 
-    print(item)
+df = pd.DataFrame(all_data)
+
+testDate = df['Date'].iloc[0]
+
+# https://docs.python.org/3/library/datetime.html#strftime-and-strptime-behavior
+# link to set the format of our date 
+# %b = abbreviated month 
+# %d = day of the month 0 padded
+# %Y = year padded with century 
+# not necessary to pass in format however I want to ensure pandas parses date correctly
+testDateUpdated = pd.to_datetime(testDate, format = '%b %d %Y').strftime('%A')
+print(testDate)
+print(testDateUpdated)
+
