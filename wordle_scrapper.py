@@ -51,6 +51,16 @@ testDate = df['Date'].iloc[0]
 # in my case I want full weekday name (%A)
 testDateUpdated = pd.to_datetime(testDate, format = '%b %d %Y').strftime('%A')
 
-dates = df['Date'].tolist()
-df['Weekday'] = pd.to_datetime(dates, format = '%b %d %Y').strftime('%A')
+# -------------------------------------------------------------------------
+# originally used this method work around .strftime not working on series 
+
+# dates = df['Date'].tolist()
+# df['Weekday'] = pd.to_datetime(dates, format = '%b %d %Y').strftime('%A')
+#--------------------------------------------------------------------------
+
+# this is a cleaner way to apply datetime properties to a series without the need for a list
+# https://pandas.pydata.org/docs/reference/api/pandas.Series.dt.html
+# by using .dt before .strftime we can apply datetime properties to series values 
+# also removed format when converting to datetime object since it causes no issues 
+df['Weekday'] = pd.to_datetime(df['Date']).dt.strftime('%A')
 print(df)
