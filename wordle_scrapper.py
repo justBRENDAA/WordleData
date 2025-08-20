@@ -46,7 +46,11 @@ testDate = df['Date'].iloc[0]
 # %d = day of the month 0 padded
 # %Y = year padded with century 
 # not necessary to pass in format however I want to ensure pandas parses date correctly
-testDateUpdated = pd.to_datetime(testDate, format = '%b %d %Y').strftime('%A')
-print(testDate)
-print(testDateUpdated)
 
+# strftime to convert pandas datetime object to a string representaiton of desired format
+# in my case I want full weekday name (%A)
+testDateUpdated = pd.to_datetime(testDate, format = '%b %d %Y').strftime('%A')
+
+dates = df['Date'].tolist()
+df['Weekday'] = pd.to_datetime(dates, format = '%b %d %Y').strftime('%A')
+print(df)
