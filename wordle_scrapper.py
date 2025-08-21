@@ -64,20 +64,25 @@ testDateUpdated = pd.to_datetime(testDate, format = '%b %d %Y').strftime('%A')
 # also removed format when converting to datetime object since it causes no issues 
 df['Weekday'] = pd.to_datetime(df['Date']).dt.strftime('%A')
 
-
 # example of how I would get wordles that were released on a monday 
 # mondayWordles = df.loc[df['Weekday'] == 'Monday']
 
 # creating a column 'Ends with Y' to check if wordle answer ends with Y
 # binary classification (0/1)
- 
 df['Ends in Y'] = df['Answer'].str.endswith('Y').astype(int)
 
-# check for repeating characters 
-
+# check for repeating characters (binary classification)
 test_word = df['Answer'].iloc[1]
 print()
 print("Word: ", test_word)
 print(f"{test_word} has repeating letters: {len(set(test_word)) != len(test_word)}")
 print(f"{test_word} has repeating letters: {int(len(set(test_word)) != len(test_word))}")
 print()
+
+# working function above
+# now we make lambda function and use .apply to apply it to pd series 
+# https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.apply.html
+# https://www.w3schools.com/python/python_lambda.asp
+repeating_char_check = lambda x: int(len(set(x)) != len(x))
+df['Has repeating char'] = df['Answer'].apply(repeating_char_check)
+print(df)
