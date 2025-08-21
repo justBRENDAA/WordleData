@@ -63,4 +63,13 @@ testDateUpdated = pd.to_datetime(testDate, format = '%b %d %Y').strftime('%A')
 # by using .dt before .strftime we can apply datetime properties to series values 
 # also removed format when converting to datetime object since it causes no issues 
 df['Weekday'] = pd.to_datetime(df['Date']).dt.strftime('%A')
+
+
+# example of how I would get wordles that were released on a monday 
+# mondayWordles = df.loc[df['Weekday'] == 'Monday']
+
+# creating a column 'Ends with Y' to check if wordle answer ends with Y
+# binary classification (0/1)
+ 
+df['Ends in Y'] = df['Answer'].str.endswith('Y').astype(int)
 print(df)
