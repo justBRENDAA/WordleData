@@ -72,4 +72,12 @@ df['Weekday'] = pd.to_datetime(df['Date']).dt.strftime('%A')
 # binary classification (0/1)
  
 df['Ends in Y'] = df['Answer'].str.endswith('Y').astype(int)
-print(df)
+
+# check for repeating characters 
+
+test_word = df['Answer'].iloc[1]
+print()
+print("Word: ", test_word)
+print(f"{test_word} has repeating letters: {len(set(test_word)) != len(test_word)}")
+print(f"{test_word} has repeating letters: {int(len(set(test_word)) != len(test_word))}")
+print()
